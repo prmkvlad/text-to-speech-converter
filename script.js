@@ -55,3 +55,21 @@ function convertTextToSpeech() {
 	U.lang = voice.lang;
 	speechSynthesis.speak(U);
 }
+
+window.onkeydown = ({ key }) => {
+	switch (key.toLowerCase()) {
+		case "s":
+			if (!speechSynthesis.speaking) {
+				convertTextToSpeech();
+			}
+			break;
+		case "c":
+			return speechSynthesis.cancel();
+		case "p":
+			return speechSynthesis.pause();
+		case "r":
+			return speechSynthesis.resume();
+		default:
+			return;
+	}
+};
