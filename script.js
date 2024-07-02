@@ -1,7 +1,7 @@
 const U = new SpeechSynthesisUtterance();
 const voiceSelect = document.querySelector('.hero__select');
 
-let voices = [];
+let voices = speechSynthesis.getVoices();
 
 speechSynthesis.onvoiceschanged = () => {
 	voices = speechSynthesis.getVoices();
@@ -9,6 +9,8 @@ speechSynthesis.onvoiceschanged = () => {
 }
 
 function populateVoices(voices) {
+	voiceSelect.innerHTML = '';
+
 	voices.forEach((voice, index) => {
 		voiceSelect.options[index] = new Option(voice.name, index);
 	});
