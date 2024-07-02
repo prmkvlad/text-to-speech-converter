@@ -1,23 +1,24 @@
 const U = new SpeechSynthesisUtterance();
 const voiceSelect = document.querySelector('.hero__select');
 
-let voices = speechSynthesis.getVoices();
+let voices = [];
 
-speechSynthesis.onvoiceschanged = () => {
+function populateVoices() {
 	voices = speechSynthesis.getVoices();
-	populateVoices(voices);
-}
-
-function populateVoices(voices) {
 	voiceSelect.innerHTML = '';
 
 	voices.forEach((voice, index) => {
-		voiceSelect.options[index] = new Option(voice.name, index);
+		voiceSelect.options[index] = new Option(`${voice.lang}: ${voice.name}`, index);
 	});
 
-	const defaultVoiceIndex = voices.findIndex((voice) => voice.name === "Google UK English Female");
+	let defaultVoiceIndex = (voices.findIndex((voice) => voice.name === "Google UK English Female") + 1 || 1) - 1;
 	voiceSelect.selectedIndex = defaultVoiceIndex;
 	initializeHandlers();
+}
+
+populateVoices();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+	speechSynthesis.onvoiceschanged = populateVoices;
 }
 
 function initializeHandlers() {
